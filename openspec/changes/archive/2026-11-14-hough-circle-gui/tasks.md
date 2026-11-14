@@ -45,4 +45,4 @@
 
 ## Workflow follow-up
 
-- [ ] 按项目流程归档 `hough-circle-gui`，把两份增量规格同步到 `openspec/specs/`，并确认归档后 `openspec validate` 通过。
+- [x] 按项目流程归档 `hough-circle-gui`，把两份增量规格同步到 `openspec/specs/`，并确认归档后 `openspec validate` 通过。
