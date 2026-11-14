@@ -31,8 +31,10 @@ python3 src/hough_circle_gui.py
 
 | 图片 | 期望结果 | 验收参数 |
 |---|---|---|
-| `examples/coins.jpg` | 标出两个硬币外缘 | 待实现后填写 |
-| `examples/cookie-plate.jpg` | 标出一个盘沿 | 待实现后填写 |
+| `examples/coins.jpg` | 标出两个硬币外缘 | `dp=1.2, minDist=300, param1=100, param2=100, minRadius=0, maxRadius=0` |
+| `examples/cookie-plate.jpg` | 标出一个盘沿 | `dp=1.2, minDist=300, param1=100, param2=100, minRadius=0, maxRadius=0` |
+
+两张图共用该组参数；半径 0 表示不限制。
 
 验收结果图放在 `docs/` 下，并在实现完成后嵌入本节。
 
