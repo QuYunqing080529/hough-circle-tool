@@ -44,6 +44,15 @@ python3 src/hough_circle_gui.py
 
 半径 0 表示不限制；仅当最小、最大半径同时为 0 时视为不限制，否则要求最大半径大于最小半径。
 
+## 样例图片
+
+两张验收图随仓库提供，无需另外下载：
+
+- `examples/coins.jpg`：760×385，两枚硬币
+- `examples/cookie-plate.jpg`：520×520，一个盘子
+
+获取方式：克隆仓库后文件已在 `examples/` 目录内（`git clone https://github.com/QuYunqing080529/hough-circle-tool.git`），或在仓库页面用 Download ZIP 解压获取。
+
 ## 验收图片与参数
 
 | 图片 | 期望结果 | 验收参数 |
@@ -59,6 +68,28 @@ python3 src/hough_circle_gui.py
 |---|---|---|---|
 | `examples/coins.jpg` | `(567, 191, 179)`、`(193, 193, 180)` | 2 | ![](docs/coins-annotated.png) |
 | `examples/cookie-plate.jpg` | `(263, 259, 244)` | 1 | ![](docs/cookie-plate-annotated.png) |
+
+## 无头复现验收
+
+没有图形环境（或不想开窗口）时，用下面这条命令复现「验收图片与参数」的结果：
+
+```bash
+PYTHONPATH=src python3 -c "
+from circle_detector import HoughParams, load_image, detect_circles
+p = HoughParams()
+for f in ('examples/coins.jpg', 'examples/cookie-plate.jpg'):
+    print(f, detect_circles(load_image(f), p))
+"
+```
+
+预期输出：
+
+```text
+examples/coins.jpg [(567, 191, 179), (193, 193, 180)]
+examples/cookie-plate.jpg [(263, 259, 244)]
+```
+
+这条命令只依赖仓库内的样例图片与系统自带的 OpenCV/NumPy，不需要 GUI，也不需要额外安装。
 
 ## 目录结构
 
@@ -88,3 +119,15 @@ hough_circle/
 - [x] 图形界面
 - [x] 两张验收图通过
 - [x] README 补全验收参数与结果图
+- [x] README 补齐样例获取方式与无头复现命令
+- [x] 新增 `add-video-detection` 变更提案（视频检测，仅设计未实现）
+
+
+## 交接状态（2026-11-18）
+
+- 当前版本：单图霍夫圆检测 + tkinter 界面，功能已实现并通过验收（见上文验收表与结果图）。
+- 开放变更：`openspec/changes/add-video-detection/` —— 计划增加「导入视频完成检测」，**仅完成设计与任务拆分，尚未实现**。
+- 复现基线：按「无头复现验收」执行，应得到与验收表一致的 2 个圆 / 1 个圆。
+- 未验证事项：WSLg 下视频播放性能、非默认编码视频的解码、4K 视频逐帧检测耗时、视频模式下暂停与改参的并发行为（详见该变更 `tasks.md`）。
+- 接手入口：先读 `openspec/changes/add-video-detection/proposal.md` 与 `design.md`，再从 `tasks.md` 的「后续待办」第 1 条开始；核心逻辑可无头验收，不必先做界面。
+- 已知约束：不新增 pip 依赖；`detect_circles` / `validate` / `annotate` 的签名与语义保持不变。
